@@ -1,0 +1,19 @@
+{
+  "name": "react-peek",
+  "version": "0.1.0",
+  "description": "Gather data by inspecting react components.",
+  "main": "prop-types.js",
+  "keywords": [
+    "react",
+    "prop-types",
+    "props",
+    "data",
+    "docs",
+    "documentation"
+  ],
+  "author": "Oliver Gupte",
+  "license": "MIT",
+  "dependencies": {
+    "prop-types": "^15.6.0"
+  }
+}
