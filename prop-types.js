@@ -24,15 +24,15 @@ const DYNAMIC_PROPTYPES = [
 
 const NAMESPACE = 'peek';
 
-const createDescriptiveValidator = (propTypeValidator, metaData={}, isRequired, namespace=NAMESPACE) => {
+const createValidator = (propTypeValidator, metaData={}, isRequired, namespace=NAMESPACE) => {
 	return Object.assign((...args) => {
 		if (typeof args[0] === 'string') {
-			return createDescriptiveValidator(propTypeValidator, Object.assign({}, metaData, {
-				description: args[0].trim(),
+			return createValidator(propTypeValidator, Object.assign({}, metaData, {
+				text: args[0].trim(),
 			}), isRequired);
 		} else if (Array.isArray(args[0]) && args[0].raw) {
-			return createDescriptiveValidator(propTypeValidator, Object.assign({}, metaData, {
-				description: String.raw(...args).trim(),
+			return createValidator(propTypeValidator, Object.assign({}, metaData, {
+				text: String.raw(...args).trim(),
 			}), isRequired);
 		} else {
 			return propTypeValidator(...args);
@@ -41,25 +41,25 @@ const createDescriptiveValidator = (propTypeValidator, metaData={}, isRequired, 
 };
 
 const createStaticMetaPropType = (propType) => {
-	const isRequired = createDescriptiveValidator(PropTypes[propType].isRequired, {
+	const isRequired = createValidator(PropTypes[propType].isRequired, {
 		type: propType,
 		isRequired: true,
 	});
 
-	return createDescriptiveValidator(PropTypes[propType], {
+	return createValidator(PropTypes[propType], {
 		type: propType,
 	}, isRequired);
 };
 
 const createDynamicMetaPropType = (propType) => {
 	return (...args) => {
-		const isRequired = createDescriptiveValidator(PropTypes[propType](...args).isRequired, {
+		const isRequired = createValidator(PropTypes[propType](...args).isRequired, {
 			type: propType,
 			args: args,
 			isRequired: true,
 		});
 
-		return createDescriptiveValidator(PropTypes[propType](...args), {
+		return createValidator(PropTypes[propType](...args), {
 			type: propType,
 			args: args,
 		}, isRequired);
@@ -74,12 +74,12 @@ const dynamicMetaPropTypes = DYNAMIC_PROPTYPES.reduce((acc, propType) => Object.
 	[propType]: createDynamicMetaPropType(propType),
 }), {});
 
-const applyDescriptions = (propTypes, ...descriptionObjs) => {
-	return descriptionObjs.reduce((nextPropTypes, descriptionObj) => {
-		if (descriptionObj) {
-			const appliedDescriptions = Object.keys(descriptionObj).reduce((acc, propTypeKey) => {
+const applyText = (propTypes, ...textObjs) => {
+	return textObjs.reduce((nextPropTypes, textObj) => {
+		if (textObj) {
+			const appliedDescriptions = Object.keys(textObj).reduce((acc, propTypeKey) => {
 				if (propTypes[propTypeKey]) {
-					acc[propTypeKey] = propTypes[propTypeKey](descriptionObj[propTypeKey]);
+					acc[propTypeKey] = propTypes[propTypeKey](textObj[propTypeKey]);
 					return acc;
 				}
 				return acc;
@@ -92,6 +92,6 @@ const applyDescriptions = (propTypes, ...descriptionObjs) => {
 };
 
 module.exports = Object.assign({}, PropTypes, staticMetaPropTypes, dynamicMetaPropTypes, {
-	createDescriptiveValidator,
-	applyDescriptions,
+	createValidator,
+	applyText,
 });
