@@ -2,7 +2,10 @@
   "name": "react-peek",
   "version": "0.1.0",
   "description": "Gather data by inspecting react components.",
-  "main": "prop-types.js",
+  "main": "index.js",
+  "bin": {
+    "react-peek": "./cli.js"
+  },
   "keywords": [
     "react",
     "prop-types",
@@ -14,6 +17,17 @@
   "author": "Oliver Gupte",
   "license": "MIT",
   "dependencies": {
-    "prop-types": "^15.6.0"
+    "babel-core": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "globby": "^7.1.1",
+    "lodash": "^4.17.4",
+    "mime-types": "^2.1.17",
+    "minimist": "^1.2.0",
+    "mkdirp": "^0.5.1",
+    "ora": "^1.3.0",
+    "prop-types": "^15.6.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
   }
 }
