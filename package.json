@@ -1,6 +1,6 @@
 {
   "name": "react-peek",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Gather data by inspecting react components.",
   "main": "prop-types.js",
   "keywords": [
