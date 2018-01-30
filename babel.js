@@ -1,26 +1,9 @@
-const STATICS_NAMESPACE = 'peek';
-const PROPTYPE_SET = new Set([
-	'any',
-	'array',
-	'bool',
-	'func',
-	'number',
-	'object',
-	'string',
-	'symbol',
-	'node',
-	'element',
-	'instanceOf',
-	'oneOf',
-	'oneOfType',
-	'arrayOf',
-	'objectOf',
-	'shape',
-]);
+const { PROPTYPES } = require('./prop-types.js');
 
 const DEFAULT_OPTIONS = {
 	removeTemplateLiterals: true,
 	minifyStatics: false,
+	staticsKey: 'peek'
 };
 
 const getOpt = (opts = {}, name) =>
@@ -33,21 +16,21 @@ module.exports = () => {
 			TaggedTemplateExpression(path, { opts }) {
 				if (getOpt(opts, 'removeTemplateLiterals')) {
 					if (path.node.tag.type === 'Identifier') {
-						if (PROPTYPE_SET.has(path.node.tag.name)) {
+						if (PROPTYPES.has(path.node.tag.name)) {
 							path.replaceWith(path.node.tag);
 							return;
 						}
 					}
 					if (path.node.tag.type === 'CallExpression') {
 						if (path.node.tag.callee.type === 'Identifier') {
-							if (PROPTYPE_SET.has(path.node.tag.callee.name)) {
+							if (PROPTYPES.has(path.node.tag.callee.name)) {
 								path.replaceWith(path.node.tag);
 								return;
 							}
 						}
 						if (path.node.tag.callee.type === 'MemberExpression') {
 							if (path.node.tag.callee.property.type === 'Identifier') {
-								if (PROPTYPE_SET.has(path.node.tag.callee.property.name)) {
+								if (PROPTYPES.has(path.node.tag.callee.property.name)) {
 									path.replaceWith(path.node.tag);
 									return;
 								}
@@ -57,7 +40,7 @@ module.exports = () => {
 					if (path.node.tag.type === 'MemberExpression') {
 						if (path.node.tag.property.type === 'Identifier') {
 							if (
-								PROPTYPE_SET.has(path.node.tag.property.name) ||
+								PROPTYPES.has(path.node.tag.property.name) ||
 								path.node.tag.property.name === 'isRequired'
 							) {
 								path.replaceWith(path.node.tag);
@@ -72,7 +55,7 @@ module.exports = () => {
 			ObjectProperty(path, { opts }) {
 				if (getOpt(opts, 'minifyStatics')) {
 					if (path.node.key.type === 'Identifier') {
-						if (path.node.key.name === STATICS_NAMESPACE) {
+						if (path.node.key.name === getOpt(opts, 'staticsKey')) {
 							if (path.parentPath.parentPath.node.type === 'ObjectProperty') {
 								if (path.parentPath.parentPath.node.key.type === 'Identifier') {
 									if (path.parentPath.parentPath.node.key.name === 'statics') {
