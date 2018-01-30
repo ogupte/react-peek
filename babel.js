@@ -1,5 +1,7 @@
 const { PROPTYPES } = require('./prop-types.js');
 
+const PROPTYPES_SET = new Set(PROPTYPES);
+
 const DEFAULT_OPTIONS = {
 	removeTemplateLiterals: true,
 	minifyStatics: false,
@@ -16,21 +18,21 @@ module.exports = () => {
 			TaggedTemplateExpression(path, { opts }) {
 				if (getOpt(opts, 'removeTemplateLiterals')) {
 					if (path.node.tag.type === 'Identifier') {
-						if (PROPTYPES.has(path.node.tag.name)) {
+						if (PROPTYPES_SET.has(path.node.tag.name)) {
 							path.replaceWith(path.node.tag);
 							return;
 						}
 					}
 					if (path.node.tag.type === 'CallExpression') {
 						if (path.node.tag.callee.type === 'Identifier') {
-							if (PROPTYPES.has(path.node.tag.callee.name)) {
+							if (PROPTYPES_SET.has(path.node.tag.callee.name)) {
 								path.replaceWith(path.node.tag);
 								return;
 							}
 						}
 						if (path.node.tag.callee.type === 'MemberExpression') {
 							if (path.node.tag.callee.property.type === 'Identifier') {
-								if (PROPTYPES.has(path.node.tag.callee.property.name)) {
+								if (PROPTYPES_SET.has(path.node.tag.callee.property.name)) {
 									path.replaceWith(path.node.tag);
 									return;
 								}
@@ -40,7 +42,7 @@ module.exports = () => {
 					if (path.node.tag.type === 'MemberExpression') {
 						if (path.node.tag.property.type === 'Identifier') {
 							if (
-								PROPTYPES.has(path.node.tag.property.name) ||
+								PROPTYPES_SET.has(path.node.tag.property.name) ||
 								path.node.tag.property.name === 'isRequired'
 							) {
 								path.replaceWith(path.node.tag);
