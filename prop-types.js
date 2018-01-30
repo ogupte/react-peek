@@ -110,9 +110,9 @@ const defaultExport = Object.assign({}, PropTypes, staticMetaPropTypes, dynamicM
 	createValidator,
 	applyText,
 	PROPTYPES: [...STATIC_PROPTYPES, ...DYNAMIC_PROPTYPES],
-}, {
-	__esModule: true,
-	default: defaultExport
 });
+
+defaultExport.__esModule = true;
+defaultExport.default = defaultExport;
 
 module.exports = defaultExport;
