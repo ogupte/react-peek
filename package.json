@@ -13,7 +13,15 @@
   ],
   "author": "Oliver Gupte",
   "license": "MIT",
+  "scripts": {
+    "babel-prop-types": "babel src/prop-types.js > prop-types.js",
+	 "prepublish": "npm run babel-prop-types"
+  },
   "dependencies": {
     "prop-types": "^15.6.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1"
   }
 }

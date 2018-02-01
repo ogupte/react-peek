@@ -1,3 +1,6 @@
+# Build files
+./prop-types.js
+
 # Logs
 logs
 *.log
