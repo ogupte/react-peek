@@ -47,7 +47,7 @@ const createValidator = (propTypeValidator, metaData={}, isRequired, namespace=N
 		} else if (Array.isArray(args[0]) && args[0].raw) {
 			const [callSite, ...substitutions] = args;
 			return createValidator(propTypeValidator, Object.assign({}, metaData, {
-				text: interweave(callSite, substitutions).join(),
+				text: interweave(callSite, substitutions).join(''),
 			}), isRequired);
 		} else {
 			return propTypeValidator(...args);
