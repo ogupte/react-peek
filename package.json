@@ -12,6 +12,10 @@
     "documentation"
   ],
   "author": "Oliver Gupte",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ogupte/react-peek.git"
+  },
   "license": "MIT",
   "scripts": {
     "babel-prop-types": "babel src/prop-types.js > prop-types.js",
