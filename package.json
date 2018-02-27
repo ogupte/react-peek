@@ -19,13 +19,32 @@
   "license": "MIT",
   "scripts": {
     "babel-prop-types": "babel src -d lib",
-    "prepublish": "npm run babel-prop-types"
+    "prepublish": "npm run babel-prop-types",
+    "test": "jest",
+    "watch": "jest --watch",
+    "cover": "jest --coverage"
   },
   "dependencies": {
     "prop-types": "^15.6.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.1"
+    "babel-preset-env": "^1.6.1",
+    "jest": "^22.4.2"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverageFrom": [
+      "**/*.js",
+      "!*.*"
+    ],
+    "coverageReporters": [
+      "html"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json"
+    ],
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(tsx?|jsx?)$"
   }
 }
