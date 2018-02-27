@@ -44,13 +44,29 @@ describe('Prop-Types', () => {
 				name: reactPeekPropTypes.string.isRequired,
 			}
 
-			const props = {
-				name: 'My Name',
-			}
-
-			expect(reactPeekPropTypes.string.isRequired.peek).toEqual({ type: 'string', isRequired: true });
+			expect(propsTypes.name.peek).toEqual({ type: 'string', isRequired: true });
 
 		});
+
+		it('should have assign function property', () => {
+
+			expect(reactPeekPropTypes.string).toHaveProperty('assign');
+			expect(reactPeekPropTypes.string.assign).toBeInstanceOf(Function);
+
+		});
+
+		it('assign should set arbitrary keys and values', () => {
+
+			const propsTypes = {
+				name: reactPeekPropTypes.string.assign({
+					meta: ['data'],
+				}),
+			}
+
+			expect(propsTypes.name.peek).toEqual({ type: 'string', meta: ['data'] });
+
+		});
+
 
 	});
 
