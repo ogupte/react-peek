@@ -52,7 +52,13 @@ const createValidator = (propTypeValidator, metaData={}, isRequired, namespace=N
 		} else {
 			return propTypeValidator(...args);
 		}
-	}, namespace ? {[namespace]: metaData} : metaData, {isRequired});
+	}, namespace ? {[namespace]: metaData} : metaData, {isRequired}, {
+		assign: (...args) => createValidator(
+			propTypeValidator,
+			Object.assign({}, metaData, ...args),
+			namespace
+		),
+	});
 };
 
 const createStaticMetaPropType = (propType) => {
