@@ -17,12 +17,6 @@ describe('Prop-Types', () => {
 
 		});
 
-		it('should have peek.type = string', () => {
-
-			expect(reactPeekPropTypes.string.peek).toEqual({ type: 'string' });
-
-		});
-
 		it('should validate strings', () => {
 
 			const propsTypes = {
@@ -44,7 +38,7 @@ describe('Prop-Types', () => {
 
 		});
 
-		it('isRequired should set isRequired = true ', () => {
+		it('isRequired should set isRequired = true', () => {
 
 			const propsTypes = {
 				name: reactPeekPropTypes.string.isRequired,
