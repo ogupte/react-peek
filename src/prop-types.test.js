@@ -3,6 +3,16 @@ const reactPeekPropTypes = require('./prop-types');
 
 describe('Prop-Types', () => {
 
+	let consoleErrorSpy;
+
+	beforeEach(() => {
+		consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+	});
+
+	afterEach(() => {
+		consoleErrorSpy.mockRestore();
+	});
+
 	describe('#string', () => {
 
 		it('should have the peek property', () => {
@@ -27,7 +37,17 @@ describe('Prop-Types', () => {
 				name: 'My Name',
 			}
 
-			return PropTypes.checkPropTypes(propsTypes, props, 'prop', 'MyComponent');
+			PropTypes.checkPropTypes(propsTypes, props, 'prop', 'MyComponent');
+
+			expect(consoleErrorSpy).not.toBeCalled();
+
+		});
+
+		it('should have text', () => {
+
+			const prop = reactPeekPropTypes.string`String Description`;
+
+			expect(prop.peek).toEqual({ type: 'string', text: 'String Description' });
 
 		});
 
@@ -44,7 +64,11 @@ describe('Prop-Types', () => {
 				name: reactPeekPropTypes.string.isRequired,
 			}
 
-			expect(propsTypes.name.peek).toEqual({ type: 'string', isRequired: true });
+			const props = {
+				name: 'My Name',
+			}
+
+			expect(reactPeekPropTypes.string.isRequired.peek).toEqual({ type: 'string', isRequired: true });
 
 		});
 
@@ -61,12 +85,49 @@ describe('Prop-Types', () => {
 				name: reactPeekPropTypes.string.assign({
 					meta: ['data'],
 				}),
-			}
+			};
 
 			expect(propsTypes.name.peek).toEqual({ type: 'string', meta: ['data'] });
 
 		});
 
+	});
+
+	describe('isRequired', () => {
+
+		it('should validate after using isRequired', () => {
+
+			const propsTypes = {
+				name: reactPeekPropTypes.string.isRequired,
+			}
+
+			const props = {}
+
+			PropTypes.checkPropTypes(propsTypes, props, 'prop', 'MyComponent');
+
+			expect(consoleErrorSpy).toBeCalledWith('Warning: Failed prop type: The prop `name` is marked as required in `MyComponent`, but its value is `undefined`.');
+
+		});
+
+	});
+
+	describe('assign', () => {
+
+		it('should still validate after using assign', () => {
+
+			const propsTypes = {
+				name: reactPeekPropTypes.string.assign({ size: 'large' }),
+			}
+
+			const props = {
+				name: 'My Name',
+			}
+
+			PropTypes.checkPropTypes(propsTypes, props, 'prop', 'MyComponent');
+
+			expect(consoleErrorSpy).not.toBeCalled();
+
+		});
 
 	});
 
