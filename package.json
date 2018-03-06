@@ -18,7 +18,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "babel-prop-types": "babel src -d lib",
+    "babel-prop-types": "babel src -d lib --ignore '**/*.test.js'",
     "prepublish": "npm run babel-prop-types",
     "test": "jest",
     "watch": "jest --watch",
@@ -35,10 +35,10 @@
     "np": "^2.20.1"
   },
   "jest": {
-    "coverageDirectory": "./coverage/",
+    "rootDir": "src",
+    "coverageDirectory": "../coverage/",
     "collectCoverageFrom": [
-      "**/*.js",
-      "!*.*"
+      "*.js"
     ],
     "coverageReporters": [
       "html"
