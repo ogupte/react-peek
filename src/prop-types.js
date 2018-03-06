@@ -56,6 +56,7 @@ const createValidator = (propTypeValidator, metaData={}, isRequired, namespace=N
 		assign: (...args) => createValidator(
 			propTypeValidator,
 			Object.assign({}, metaData, ...args),
+			isRequired,
 			namespace
 		),
 	});
