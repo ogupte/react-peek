@@ -91,6 +91,15 @@ describe('Prop-Types', () => {
 
 		});
 
+		it('assign should only be additive', () => {
+
+			expect(reactPeekPropTypes.string.assign({
+					meta: ['data'],
+			}).peek)
+				.toMatchObject(reactPeekPropTypes.string.peek)
+
+		});
+
 	});
 
 	describe('isRequired', () => {
